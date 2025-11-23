@@ -33,12 +33,17 @@ type JWTConfig struct {
 }
 
 func LoadConfig(path string) (*Config, error) {
-	viper.SetConfigFile(path)
-	viper.SetConfigType("env")
 	viper.AutomaticEnv()
 
-	if err := viper.ReadInConfig(); err != nil {
-		return nil, fmt.Errorf("failed to read config file: %w", err)
+	// Try to load .env file for local development
+	// In production (Leapcell), environment variables will be set directly
+	if path != "" {
+		viper.SetConfigFile(path)
+		viper.SetConfigType("env")
+		if err := viper.ReadInConfig(); err != nil {
+			// Don't fail if .env file is missing - fall back to environment variables
+			fmt.Printf("No .env file found at %s, using environment variables\n", path)
+		}
 	}
 
 	config := &Config{
