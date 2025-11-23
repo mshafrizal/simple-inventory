@@ -33,7 +33,17 @@ type JWTConfig struct {
 }
 
 func LoadConfig(path string) (*Config, error) {
-	viper.AutomaticEnv()
+	viper.SetDefault("APP_PORT", 8080)
+	viper.SetDefault("APP_ENV", "production")
+	viper.SetDefault("APP_NAME", "simple-inventory")
+	viper.SetDefault("DB_HOST", "9qasp5v56q8ckkf5dc.apn.leapcellpool.com")
+	viper.SetDefault("DB_PORT", 6438)
+	viper.SetDefault("DB_USER", "itowpiunrzibboonxyqu")
+	viper.SetDefault("DB_PASSWORD", "qsxjreudpuoufqtiuyyibdgigrregr")
+	viper.SetDefault("DB_NAME", "kpipmpgdtiahyjkllzrl")
+	viper.SetDefault("DB_SSLMODE", false)
+	viper.SetDefault("JWT_SECRET", "2f2262daf4795e4157771dc4188a33ea541caa90032719f6241b1661e1901457")
+	viper.SetDefault("JWT_EXPIRATION_HOURS", 24)
 
 	// Try to load .env file for local development
 	// In production (Leapcell), environment variables will be set directly
@@ -45,6 +55,7 @@ func LoadConfig(path string) (*Config, error) {
 			fmt.Printf("No .env file found at %s, using environment variables\n", path)
 		}
 	}
+	viper.AutomaticEnv()
 
 	config := &Config{
 		App: AppConfig{
