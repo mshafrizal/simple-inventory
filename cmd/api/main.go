@@ -16,7 +16,8 @@ func main() {
 	log.Println("Starting Simple Inventory API...")
 	log.Println("Timezone set to UTC")
 
-	cfg, err := config.LoadConfig(".env")
+	// Load config from .env file (local) or environment variables (production/Leapcell)
+	cfg, err := config.LoadConfig("")
 	if err != nil {
 		log.Fatalf("Failed to load config: %v", err)
 	}
